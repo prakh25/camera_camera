@@ -70,9 +70,9 @@ void main() {
           emitsInOrder([
             isInstanceOf<CameraStatusLoading>(),
             isInstanceOf<CameraStatusSuccess>(),
-            isInstanceOf<CameraStatusSelected>(),
+            isInstanceOf<CameraStatusSelected>(), //0
           ]));
-      expect(controller.status.selected.indexSelected, 1);
+      expect(controller.status.selected.indexSelected, 0);
     });
 
     test("changeCamera for next camera", () async {
@@ -99,8 +99,8 @@ void main() {
           emitsInOrder([
             isInstanceOf<CameraStatusLoading>(),
             isInstanceOf<CameraStatusSuccess>(),
-            isInstanceOf<CameraStatusSelected>(),
-            isInstanceOf<CameraStatusSelected>(),
+            isInstanceOf<CameraStatusSelected>(), //0
+            isInstanceOf<CameraStatusSelected>(), //1
           ]));
       expect(controller.status.selected.indexSelected, 1);
     });
@@ -130,9 +130,9 @@ void main() {
           emitsInOrder([
             isInstanceOf<CameraStatusLoading>(),
             isInstanceOf<CameraStatusSuccess>(),
-            isInstanceOf<CameraStatusSelected>(),
-            isInstanceOf<CameraStatusSelected>(),
-            isInstanceOf<CameraStatusSelected>(),
+            isInstanceOf<CameraStatusSelected>(), //0
+            isInstanceOf<CameraStatusSelected>(), //1
+            isInstanceOf<CameraStatusSelected>(), //0
           ]));
       expect(controller.status.selected.indexSelected, 0);
     });

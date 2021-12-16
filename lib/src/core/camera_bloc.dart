@@ -53,20 +53,43 @@ class CameraBloc {
   }
 
   void changeCamera([int? specificIndex]) {
-    if (status is CameraStatusSuccess) {
-      final cameras = status.success.cameras;
-      status = CameraStatusSelected(cameras: cameras, indexSelected: 0);
-    } else if (status is CameraStatusPreview) {
-      final cameras = status.preview.cameras;
-      final index = status.preview.indexSelected;
-      var indexSelected = 0;
-      if (index + 1 < cameras.length) {
-        indexSelected = index + 1;
-      }
-      status = CameraStatusSelected(
-          cameras: cameras, indexSelected: specificIndex ?? indexSelected);
-    } else {
-      throw "CAMERA_CAMERA ERROR: Invalid changeCamera";
+    switch (status.runtimeType) {
+      case CameraStatusSuccess:
+        {
+          final cameras = status.success.cameras;
+          status = CameraStatusSelected(cameras: cameras, indexSelected: 0);
+          break;
+        }
+      case CameraStatusPreview:
+        {
+          final cameras = status.preview.cameras;
+          final index = status.preview.indexSelected;
+          var indexSelected = 0;
+          if (index + 1 < cameras.length) {
+            indexSelected = index + 1;
+          }
+          status = CameraStatusSelected(
+              cameras: cameras, indexSelected: specificIndex ?? indexSelected);
+          break;
+        }
+      case CameraStatusSelected:
+        {
+          final cameras = status.selected.cameras;
+          var index = status.selected.indexSelected;
+          var indexSelected = index;
+          if (index + 1 < cameras.length) {
+            indexSelected++;
+          } else {
+            indexSelected = 0;
+          }
+          status = CameraStatusSelected(
+              cameras: cameras, indexSelected: specificIndex ?? indexSelected);
+          break;
+        }
+      default:
+        {
+          throw "CAMERA_CAMERA ERROR: Invalid changeCamera";
+        }
     }
   }
 
